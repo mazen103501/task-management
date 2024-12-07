@@ -1,0 +1,29 @@
+<div class="container">
+  <app-task-list
+    [tasks]="pending$ | async"
+    [listId]="statusEnum.Pending"
+    [connectedTo]="[statusEnum.InProgress, statusEnum.Completed]"
+    [title]="'Pending'"
+    (taskDropped)="drop($event, statusEnum.Pending)"
+    (deleteTask)="deleteTask($event)"
+  ></app-task-list>
+
+  <app-task-list
+    [tasks]="inProgress$ | async"
+    [listId]="statusEnum.InProgress"
+    [connectedTo]="[statusEnum.Pending, statusEnum.Completed]"
+    [title]="'In Progress'"
+    (taskDropped)="drop($event, statusEnum.InProgress)"
+    (deleteTask)="deleteTask($event)"
+  ></app-task-list>
+
+  <app-task-list
+    [tasks]="completed$ | async"
+    [listId]="statusEnum.Completed"
+    [connectedTo]="[statusEnum.Pending, statusEnum.InProgress]"
+    [title]="'Completed'"
+    (taskDropped)="drop($event, statusEnum.Completed)"
+    (deleteTask)="deleteTask($event)"
+  ></app-task-list>
+</div>
+<button (click)="checkData()">check</button>

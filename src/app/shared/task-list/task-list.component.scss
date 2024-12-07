@@ -1,0 +1,44 @@
+:host {
+  width: 30%;
+}
+.table {
+  height: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  overflow: auto;
+}
+
+.table h3 {
+  text-align: center;
+}
+
+table th {
+  background: #000;
+  color: white;
+  white-space: nowrap;
+  padding: 2px 4px;
+}
+
+table td {
+  padding: 6px;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f0f0f0;
+}
+
+.cdk-drag {
+  padding: 8px;
+  margin: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: move;
+}
+
+.drag-active {
+  border: 1px dashed #3498db;
+  background-color: #eaf4fc;
+}

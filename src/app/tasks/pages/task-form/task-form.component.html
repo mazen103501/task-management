@@ -1,0 +1,79 @@
+<form [formGroup]="taskForm" (ngSubmit)="onFormSubmit()">
+  <div>
+    <label for="taskName">Task Name <small>*</small></label>
+    <input id="taskName" formControlName="taskName" />
+    <app-validation-message
+      [control]="taskForm.get('taskName')"
+      fieldName="Task Name"
+      [editMode]="isEditMode"
+    ></app-validation-message>
+  </div>
+
+  <div>
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description"></textarea>
+    <app-validation-message
+      [control]="taskForm.get('description')"
+      fieldName="Description"
+      [editMode]="isEditMode"
+    ></app-validation-message>
+  </div>
+
+  <div>
+    <label for="priority">Priority <small>*</small></label>
+    <select id="priority" formControlName="priority">
+      <option *ngFor="let priority of priorities" [value]="priority">
+        {{ priority }}
+      </option>
+    </select>
+    <app-validation-message
+      [control]="taskForm.get('priority')"
+      fieldName="Priority"
+      [editMode]="isEditMode"
+    ></app-validation-message>
+  </div>
+
+  <div>
+    <label for="status">Status <small>*</small></label>
+    <select id="status" formControlName="status">
+      <option *ngFor="let status of statuses" [value]="status">
+        {{ status }}
+      </option>
+    </select>
+    <app-validation-message
+      [control]="taskForm.get('status')"
+      fieldName="Status"
+      [editMode]="isEditMode"
+    ></app-validation-message>
+  </div>
+
+  <div>
+    <label for="assignedTo">Assigned To <small>*</small></label>
+    <select id="assignedTo" formControlName="assignedTo">
+      <option *ngFor="let user of users" [value]="user">{{ user }}</option>
+    </select>
+    <app-validation-message
+      [control]="taskForm.get('assignedTo')"
+      fieldName="Assigned To"
+      [editMode]="isEditMode"
+    ></app-validation-message>
+  </div>
+
+  <div class="date-input-container">
+    <label for="dueDate">Due Date <small>*</small></label>
+    <input
+      #calenderInput
+      id="dueDate"
+      type="date"
+      formControlName="dueDate"
+      (click)="calenderInput.showPicker()"
+    />
+    <app-validation-message
+      [control]="taskForm.get('dueDate')"
+      fieldName="Due Date"
+      [editMode]="isEditMode"
+    ></app-validation-message>
+  </div>
+
+  <button type="submit" [disabled]="taskForm.invalid">Submit</button>
+</form>

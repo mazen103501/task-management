@@ -1,0 +1,17 @@
+<header class="header">
+  <div class="logo">
+    <h1 routerLink="/tasks">Task Manager</h1>
+  </div>
+  <nav class="nav">
+    <a
+      class="nav-link"
+      routerLink="/tasks"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >Board</a
+    >
+    <a class="nav-link" routerLink="/tasks/add" routerLinkActive="active"
+      >Add Task</a
+    >
+  </nav>
+</header>

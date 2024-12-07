@@ -1,0 +1,14 @@
+<div *ngIf="control?.invalid && (editMode || control?.touched)">
+  <small *ngIf="control?.errors?.['required']"
+    >{{ fieldName }} is required. <br
+  /></small>
+
+  <small *ngIf="control?.errors?.['maxlength']"
+    >{{ fieldName }} cannot exceed
+    {{ control?.errors?.['maxlength'].requiredLength }} characters. <br
+  /></small>
+
+  <small *ngIf="control?.errors?.['pastDate']"
+    >Due Date cannot be in the past.
+  </small>
+</div>

@@ -1,0 +1,11 @@
+<div class="task-details" *ngIf="task$ | async as task">
+  <h2>{{ task.taskName }}</h2>
+  <p><strong>Description:</strong> {{ task.description }}</p>
+  <p><strong>Priority:</strong> {{ task.priority }}</p>
+  <p><strong>Status:</strong> {{ task.status }}</p>
+  <p><strong>Assigned To:</strong> {{ task.assignedTo }}</p>
+  <p><strong>Due Date:</strong> {{ task.dueDate | date }}</p>
+  <a class="edit-button" [routerLink]="['/tasks', task.id, 'edit']">
+    Edit Task
+  </a>
+</div>

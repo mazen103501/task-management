@@ -1,0 +1,55 @@
+<div
+  class="table"
+  cdkDropList
+  [id]="listId"
+  [cdkDropListData]="tasks"
+  [cdkDropListConnectedTo]="connectedTo"
+  (cdkDropListDropped)="onDrop($event)"
+>
+  <h3>{{ title }}</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Actions</th>
+        <th>Task Name</th>
+        <th>Description</th>
+        <th>Priority</th>
+        <th>Assigned To</th>
+        <th>Due Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let task of tasks"
+        cdkDrag
+        (cdkDragStarted)="onDragStarted()"
+        (cdkDragEnded)="onDragEnded()"
+      >
+        <td>
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item [routerLink]="['/tasks', task.id]">
+              <mat-icon>visibility</mat-icon>
+              <span>View</span>
+            </button>
+            <button mat-menu-item [routerLink]="['/tasks', task.id, 'edit']">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="onDeleteTask(task.id)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </td>
+        <td>{{ task.taskName }}</td>
+        <td>{{ task.description }}</td>
+        <td>{{ task.priority }}</td>
+        <td>{{ task.assignedTo }}</td>
+        <td>{{ task.dueDate | date }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
