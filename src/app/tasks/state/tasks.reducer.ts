@@ -1,7 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import * as TasksActions from './tasks.actions';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
-import { Priority, Status, Task } from '../../core/models/task.model';
+import {
+  Priority,
+  Status,
+  Task,
+  TaskHistory,
+} from '../../core/models/task.model';
 
 export interface State {
   pending: Task[];
@@ -19,6 +24,7 @@ export const initialState: State = {
       status: Status.Pending,
       assignedTo: 'John Doe',
       dueDate: '2024-12-01',
+      history: [],
     },
     {
       id: '2',
@@ -28,6 +34,7 @@ export const initialState: State = {
       status: Status.Pending,
       assignedTo: 'Jane Smith',
       dueDate: '2024-12-05',
+      history: [],
     },
   ],
   inProgress: [
@@ -39,6 +46,7 @@ export const initialState: State = {
       status: Status.InProgress,
       assignedTo: 'Mike Johnson',
       dueDate: '2024-12-10',
+      history: [],
     },
     {
       id: '4',
@@ -48,6 +56,7 @@ export const initialState: State = {
       status: Status.InProgress,
       assignedTo: 'Sarah Wilson',
       dueDate: '2024-12-12',
+      history: [],
     },
   ],
   completed: [
@@ -59,6 +68,7 @@ export const initialState: State = {
       status: Status.Completed,
       assignedTo: 'Tom Brown',
       dueDate: '2024-12-05',
+      history: [],
     },
     {
       id: '6',
@@ -68,6 +78,7 @@ export const initialState: State = {
       status: Status.Completed,
       assignedTo: 'Mike Johnson',
       dueDate: '2024-12-08',
+      history: [],
     },
   ],
 };
@@ -108,15 +119,20 @@ export const tasksReducer = createReducer(
     return { ...state, [task.status]: updatedList };
   }),
   on(TasksActions.updateTask, (state, { task }) => {
-    const updateTaskList = (tasks: Task[]) =>
-      tasks.map((t) => (t.id === task.id ? task : t));
+    const removeTaskFromList = (tasks: Task[], taskId: string) =>
+      tasks.filter((t) => t.id !== taskId);
 
-    return {
-      ...state,
-      pending: updateTaskList(state.pending),
-      inProgress: updateTaskList(state.inProgress),
-      completed: updateTaskList(state.completed),
+    const addTaskToList = (tasks: Task[], task: Task) => [...tasks, task];
+
+    const updatedState = {
+      pending: removeTaskFromList(state.pending, task.id),
+      inProgress: removeTaskFromList(state.inProgress, task.id),
+      completed: removeTaskFromList(state.completed, task.id),
     };
+
+    updatedState[task.status] = addTaskToList(updatedState[task.status], task);
+
+    return updatedState;
   }),
   on(TasksActions.deleteTask, (state, { taskId }) => {
     const deleteTaskFromList = (tasks: Task[]) =>

@@ -6,6 +6,7 @@ export interface Task {
   status: Status;
   assignedTo: string;
   dueDate: Date | string;
+  history: TaskHistory[];
 }
 
 export enum Priority {
@@ -18,4 +19,9 @@ export enum Status {
   Pending = 'pending',
   InProgress = 'inProgress',
   Completed = 'completed',
+}
+
+export interface TaskHistory {
+  date: Date;
+  changes: string;
 }

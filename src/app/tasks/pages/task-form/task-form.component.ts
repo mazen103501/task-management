@@ -64,6 +64,7 @@ export class TaskFormComponent implements OnInit {
       const task: Task = {
         ...this.taskForm.value,
         id: this.taskId ? this.taskId : Math.random().toString(),
+        history: this.taskId ? this.taskForm.value.history : [],
       };
 
       if (this.taskId) {

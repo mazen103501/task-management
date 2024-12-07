@@ -8,4 +8,13 @@
   <a class="edit-button" [routerLink]="['/tasks', task.id, 'edit']">
     Edit Task
   </a>
+
+  <div class="task-history">
+    <h3>History</h3>
+    <ul>
+      <li *ngFor="let entry of task.history">
+        <strong>{{ entry.date | date : "short" }}:</strong> {{ entry.changes }}
+      </li>
+    </ul>
+  </div>
 </div>
