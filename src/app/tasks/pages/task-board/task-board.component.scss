@@ -6,3 +6,24 @@
     align-items: center;
   }
 }
+
+.search-filter {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 12px;
+  p {
+    font-size: 12px;
+    color: green;
+  }
+  @media (max-width: 800px) {
+    flex-direction: column;
+  }
+}
+
+.search-filter input,
+.search-filter select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

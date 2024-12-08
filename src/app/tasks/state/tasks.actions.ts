@@ -1,7 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { State } from './tasks.reducer';
-import { Status } from '../../core/models/task.model';
-import { Task } from '../../core/models/task.model';
+import { Task, Priority, Status } from '../../core/models/task.model';
 
 export const loadTasks = createAction('[Tasks] Load Tasks');
 
@@ -38,4 +36,14 @@ export const updateTask = createAction(
 export const deleteTask = createAction(
   '[Tasks] Delete Task',
   props<{ taskId: string }>()
+);
+
+export const setSearchQuery = createAction(
+  '[Tasks] Set Search Query',
+  props<{ query: string }>()
+);
+
+export const setFilterCriteria = createAction(
+  '[Tasks] Set Filter Criteria',
+  props<{ criteria: { priority?: Priority; assignedTo?: string } }>()
 );

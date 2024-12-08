@@ -1,3 +1,39 @@
+<div class="search-filter">
+  <input
+    type="text"
+    placeholder="Search for tasks name..."
+    [value]="searchQuery"
+    (input)="onSearch($event)"
+  />
+  <select
+    (change)="onFilter($event, 'priority')"
+    [value]="filterCriteria.priority || ''"
+  >
+    <option value="">All Priorities</option>
+    <option
+      *ngFor="let priority of priorities"
+      [value]="priority"
+      [selected]="priority === filterCriteria.priority"
+    >
+      {{ priority }}
+    </option>
+  </select>
+  <select
+    (change)="onFilter($event, 'assignedTo')"
+    [value]="filterCriteria.assignedTo || ''"
+  >
+    <option value="">All Users</option>
+    <option
+      *ngFor="let user of users"
+      [value]="user"
+      [selected]="user === filterCriteria.assignedTo"
+    >
+      {{ user }}
+    </option>
+  </select>
+  <p>Note: you can drag and drop columns and move them around the tables</p>
+</div>
+
 <div class="container">
   <app-task-list
     [tasks]="pending$ | async"
@@ -26,4 +62,3 @@
     (deleteTask)="deleteTask($event)"
   ></app-task-list>
 </div>
-<button (click)="checkData()">check</button>

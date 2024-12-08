@@ -3,14 +3,26 @@ import { Store } from '@ngrx/store';
 import { Observable, take } from 'rxjs';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
-import { moveTask, transferTask, deleteTask } from '../../state/tasks.actions';
+import {
+  moveTask,
+  transferTask,
+  deleteTask,
+  setSearchQuery,
+  setFilterCriteria,
+} from '../../state/tasks.actions';
 import {
   selectPendingTasks,
   selectInProgressTasks,
   selectCompletedTasks,
+  selectFilteredCompletedTasks,
+  selectFilteredInProgressTasks,
+  selectFilteredPendingTasks,
+  selectFilterCriteria,
+  selectSearchQuery,
 } from '../../state/tasks.selectors';
-import { Status, Task } from '../../../core/models/task.model';
+import { Priority, Status, Task } from '../../../core/models/task.model';
 import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog/confirmation-dialog.component';
+import { UsersService } from '../../../core/services/users.service';
 
 @Component({
   selector: 'app-task-board',
@@ -18,13 +30,56 @@ import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog
   styleUrls: ['./task-board.component.scss'],
 })
 export class TaskBoardComponent {
-  pending$: Observable<Task[]> = this.store.select(selectPendingTasks);
-  inProgress$: Observable<Task[]> = this.store.select(selectInProgressTasks);
-  completed$: Observable<Task[]> = this.store.select(selectCompletedTasks);
-
+  pending$: Observable<Task[]> = this.store.select(selectFilteredPendingTasks);
+  inProgress$: Observable<Task[]> = this.store.select(
+    selectFilteredInProgressTasks
+  );
+  completed$: Observable<Task[]> = this.store.select(
+    selectFilteredCompletedTasks
+  );
+  priorities = Object.values(Priority);
+  users: string[] = [];
   statusEnum = Status;
+  searchQuery: string = '';
+  filterCriteria: { priority?: Priority; assignedTo?: string } = {};
 
-  constructor(private store: Store, private dialog: MatDialog) {}
+  constructor(
+    private store: Store,
+    private dialog: MatDialog,
+    private usersService: UsersService
+  ) {}
+
+  ngOnInit(): void {
+    this.users = this.usersService.getUsers();
+    this.store.select(selectFilterCriteria).subscribe((criteria) => {
+      console.log(criteria);
+      this.filterCriteria = criteria;
+    });
+    this.store.select(selectSearchQuery).subscribe((query) => {
+      this.searchQuery = query;
+    });
+  }
+
+  onSearch(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    this.store.dispatch(setSearchQuery({ query: inputElement.value }));
+  }
+
+  onFilter(event: Event, filterType: 'priority' | 'assignedTo') {
+    const selectElement = event.target as HTMLSelectElement;
+    const value = selectElement.value;
+
+    this.store
+      .select(selectFilterCriteria)
+      .pipe(take(1))
+      .subscribe((currentCriteria) => {
+        const criteria = {
+          ...currentCriteria,
+          [filterType]: value || undefined,
+        };
+        this.store.dispatch(setFilterCriteria({ criteria }));
+      });
+  }
 
   drop(event: CdkDragDrop<any>, list: Status) {
     if (event.previousContainer === event.container) {
@@ -55,27 +110,5 @@ export class TaskBoardComponent {
         this.store.dispatch(deleteTask({ taskId }));
       }
     });
-  }
-
-  checkData() {
-    // Get all tasks from different states
-    this.store
-      .select(selectPendingTasks)
-      .pipe(take(1))
-      .subscribe((pendingTasks) => console.log('Pending Tasks:', pendingTasks));
-
-    this.store
-      .select(selectInProgressTasks)
-      .pipe(take(1))
-      .subscribe((inProgressTasks) =>
-        console.log('In Progress Tasks:', inProgressTasks)
-      );
-
-    this.store
-      .select(selectCompletedTasks)
-      .pipe(take(1))
-      .subscribe((completedTasks) =>
-        console.log('Completed Tasks:', completedTasks)
-      );
   }
 }

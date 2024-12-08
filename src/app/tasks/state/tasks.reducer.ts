@@ -12,6 +12,11 @@ export interface State {
   pending: Task[];
   inProgress: Task[];
   completed: Task[];
+  searchQuery: string;
+  filterCriteria: {
+    priority?: Priority;
+    assignedTo?: string;
+  };
 }
 
 export const initialState: State = {
@@ -81,6 +86,8 @@ export const initialState: State = {
       history: [],
     },
   ],
+  searchQuery: '',
+  filterCriteria: {},
 };
 
 export const tasksReducer = createReducer(
@@ -132,7 +139,7 @@ export const tasksReducer = createReducer(
 
     updatedState[task.status] = addTaskToList(updatedState[task.status], task);
 
-    return updatedState;
+    return { ...state, ...updatedState };
   }),
   on(TasksActions.deleteTask, (state, { taskId }) => {
     const deleteTaskFromList = (tasks: Task[]) =>
@@ -144,5 +151,13 @@ export const tasksReducer = createReducer(
       inProgress: deleteTaskFromList(state.inProgress),
       completed: deleteTaskFromList(state.completed),
     };
-  })
+  }),
+  on(TasksActions.setSearchQuery, (state, { query }) => ({
+    ...state,
+    searchQuery: query,
+  })),
+  on(TasksActions.setFilterCriteria, (state, { criteria }) => ({
+    ...state,
+    filterCriteria: criteria,
+  }))
 );
