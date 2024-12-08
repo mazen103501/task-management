@@ -7,8 +7,8 @@ import { UsersService } from '../../../core/services/users.service';
 import { of } from 'rxjs';
 import { setSearchQuery, setFilterCriteria } from '../../state/tasks.actions';
 import { Priority } from '../../../core/models/task.model';
-import { SharedModule } from '../../../shared/shared.module'; // Import the SharedModule
-import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
+import { SharedModule } from '../../../shared/shared.module';
+import { ActivatedRoute } from '@angular/router';
 
 describe('TaskBoardComponent', () => {
   let component: TaskBoardComponent;
@@ -21,7 +21,7 @@ describe('TaskBoardComponent', () => {
       imports: [
         StoreModule.forRoot({ tasks: tasksReducer }),
         MatDialogModule,
-        SharedModule, // Add SharedModule here
+        SharedModule,
       ],
       providers: [
         {
@@ -35,7 +35,7 @@ describe('TaskBoardComponent', () => {
           useValue: {
             snapshot: {
               paramMap: {
-                get: () => '1', // Mock the task ID
+                get: () => '1',
               },
             },
           },

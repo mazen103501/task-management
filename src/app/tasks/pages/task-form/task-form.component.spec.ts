@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TaskFormComponent } from './task-form.component';
 import { tasksReducer } from '../../state/tasks.reducer';
 import { UsersService } from '../../../core/services/users.service';
-import { SharedModule } from '../../../shared/shared.module'; // Import the SharedModule
+import { SharedModule } from '../../../shared/shared.module';
 
 describe('TaskFormComponent', () => {
   let component: TaskFormComponent;
@@ -19,7 +19,7 @@ describe('TaskFormComponent', () => {
         ReactiveFormsModule,
         StoreModule.forRoot({ tasks: tasksReducer }),
         RouterTestingModule,
-        SharedModule, // Add SharedModule here
+        SharedModule,
       ],
       providers: [
         {
