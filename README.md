@@ -67,10 +67,16 @@ Run the following command to execute the unit tests via Karma:
 ng test
 ```
 
-## Features
+## Implemented Features
 
-- Create, edit, and delete tasks
-- Set task priorities (e.g., High, Medium, Low)
-- Track task statuses (e.g., Pending, In Progress, Completed)
-- Responsive design for desktop and mobile devices
-- And More...
+- Task creation, editing, and deletion
+- Task prioritization (Low, Medium, High)
+- Task status tracking (Pending, In Progress, Completed)
+- Drag and drop functionality for task management
+- User assignment to tasks
+- Task history tracking
+
+## Assumptions and Limitations
+
+- The application does not include authentication and authorization features.
+- The application is designed for desktop use and may not be fully optimized for mobile devices.
